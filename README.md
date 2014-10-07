@@ -11,8 +11,8 @@
 
 # O que é?
 
-Um número é considerado raiz primitiva modulo n quando todos os seus [coprimos](http://en.wikipedia.org/wiki/Coprime_integers) (o único inteiro positivo que divide ambos é um)
-são [congruantes](http://en.wikipedia.org/wiki/Modular_arithmetic#Congruence_relation) (a diferença entre os números é divisível por n) a potencia do modulo n
+Um número é considerado raiz primitiva módulo n quando todos os seus [coprimos](http://en.wikipedia.org/wiki/Coprime_integers) (o único inteiro positivo que divide ambos é um)
+são [congruentes](http://en.wikipedia.org/wiki/Modular_arithmetic#Congruence_relation) (a diferença entre os números é divisível por n) a potência do módulo n
 
 # Algoritmo
 
@@ -75,4 +75,4 @@ public class PrimitiveRootCalculator {
 
 O algoritmo desenvolvido não explora a capacidade de processamento paralelo presente na maioria dos computadores ou na totalidade em super computadores. Com isso, o cálculo para números primos "grandes" como *1979* torna-se muito lento.
 
-Uma proposta para resolver esse problema seria utilizar um **pool** de Threads a fim de divir a tarefa de percorrer os coprimos a procura de raiz primitiva.
+Uma proposta para resolver esse problema seria utilizar um **pool** de Threads a fim de dividir a tarefa de percorrer os coprimos a procura de raiz primitiva.
