@@ -76,3 +76,14 @@ public class PrimitiveRootCalculator {
 O algoritmo desenvolvido não explora a capacidade de processamento paralelo presente na maioria dos computadores ou na totalidade em super computadores. Com isso, o cálculo para números primos "grandes" como *1979* torna-se muito lento.
 
 Uma proposta para resolver esse problema seria utilizar um **pool** de Threads a fim de dividir a tarefa de percorrer os coprimos a procura de raiz primitiva.
+
+# Fotos de execução
+
+#### Primo 997
+![Primo 997](http://s15.postimg.org/dyjmo6x63/entrada_saida_para_primo.png)
+
+#### Primo 13
+![Primo 13](http://s15.postimg.org/x7gpe7hbf/entrada_saida_primo_2.png)
+
+#### Número não primo
+![Não primo](http://s9.postimg.org/vfbw6m7rj/entrada_saida_not_prime.png)
