@@ -3,46 +3,57 @@ package model;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PrimitiveRootCalculator {
 
+	private final static Random random = new Random();
 	private static final BigInteger ONE = BigInteger.ONE;
 	private static final BigInteger ZERO = BigInteger.ONE;
 
-	public static List<BigInteger> calculate(BigInteger value) throws NotPrimeException {
+	public synchronized static BigInteger calculate(BigInteger value) throws NotPrimeException,
+			PrimitiveRootNotFoundException {
 		if (!isPrime(value)) {
 			throw new NotPrimeException();
 		}
-		List<BigInteger> coprimes = coprimesOf(value);
-		List<BigInteger> primitiveRoots = new ArrayList<BigInteger>();
+		List<BigInteger> testedCoprimes = new ArrayList<BigInteger>();
 		BigInteger aux = null;
 		List<BigInteger> residues = new ArrayList<BigInteger>();
-		for (BigInteger coprime : coprimes) {
-			residues.clear();
-			congruenceVerify: for (int k = 1; k < value.intValue(); k++) {
+		BigInteger coprime = getOneComprimeOfValueThatIsNotInList(value, testedCoprimes);
+		while (coprime != null) {
+			for (int k = 1; k < value.intValue(); k++) {
 				aux = (coprime.pow(k)).mod(value);
 				if (aux == ZERO || residues.contains(aux)) {
-					break congruenceVerify;
+					break;
 				}
 				residues.add(aux);
 			}
 			if (residues.size() == value.intValue() - 1) {
-				primitiveRoots.add(coprime);
+				return coprime;
 			}
+			testedCoprimes.add(coprime);
+			residues.clear();
+			coprime = getOneComprimeOfValueThatIsNotInList(value, testedCoprimes);
 		}
-		return primitiveRoots;
+		throw new PrimitiveRootNotFoundException();
 	}
 
-	private static List<BigInteger> coprimesOf(BigInteger value) {
-		List<BigInteger> coprimes = new ArrayList<BigInteger>();
-		BigInteger countdown = value.subtract(ONE);
-		while (countdown.compareTo(ZERO) != 0) {
-			if (countdown.gcd(value).compareTo(ONE) == 0) {
-				coprimes.add(countdown);
+	private static BigInteger getOneComprimeOfValueThatIsNotInList(BigInteger value, List<BigInteger> list) {
+		BigInteger probablePrime = ZERO;
+		while (probablePrime != null) {
+			probablePrime = new BigInteger(String.valueOf(random.nextInt(value.intValue())));
+			if (list.contains(probablePrime)) {
+				list.add(probablePrime);
+				if (list.size() >= value.intValue()) {
+					break;
+				}
+				continue;
 			}
-			countdown = countdown.subtract(ONE);
+			if (probablePrime.gcd(value).compareTo(ONE) == 0) {
+				return probablePrime;
+			}
 		}
-		return coprimes;
+		return null;
 	}
 
 	private static boolean isPrime(BigInteger value) {

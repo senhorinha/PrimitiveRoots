@@ -7,17 +7,16 @@
 package view;
 
 import java.math.BigInteger;
-import java.util.List;
 
 import model.NotPrimeException;
 import model.PrimitiveRootCalculator;
+import model.PrimitiveRootNotFoundException;
 
 /**
  *
  * @author thiago
  */
 public class WelcomeView extends javax.swing.JFrame {
-
 
 	public WelcomeView() {
 		initComponents();
@@ -172,16 +171,18 @@ public class WelcomeView extends javax.swing.JFrame {
 	private void calculateButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_calculateButtonActionPerformed
 		if (validateInputNumber()) {
 			try {
-				List<BigInteger> result = PrimitiveRootCalculator.calculate(new BigInteger(
-						this.inputPrimitiveTextField.getText()));
+				BigInteger result = PrimitiveRootCalculator.calculate(new BigInteger(this.inputPrimitiveTextField
+						.getText()));
 				this.resultsList.clear();
-				for (BigInteger primitiveRoots : result) {
-					resultsList.add(String.valueOf(primitiveRoots.intValue()));
-				}
+				resultsList.add(String.valueOf(result.intValue()));
 			} catch (NotPrimeException e) {
 				NotPrimeDialog notPrimeDialog = new NotPrimeDialog(this, false);
 				notPrimeDialog.setLocationRelativeTo(this);
 				notPrimeDialog.setVisible(true);
+			} catch (PrimitiveRootNotFoundException e) {
+				PrimitiveRootNotFoundDialog primitiveRootNotFoundDialog = new PrimitiveRootNotFoundDialog(this, false);
+				primitiveRootNotFoundDialog.setLocationRelativeTo(this);
+				primitiveRootNotFoundDialog.setVisible(true);
 			}
 		}
 	}// GEN-LAST:event_calculateButtonActionPerformed
