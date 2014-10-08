@@ -16,10 +16,10 @@ public class PrimitiveRootCalculator {
 		if (!isPrime(value)) {
 			throw new NotPrimeException();
 		}
-		List<BigInteger> testedCoprimes = new ArrayList<BigInteger>();
+		List<BigInteger> coprimesAlreadyTested = new ArrayList<BigInteger>();
 		BigInteger aux = null;
 		List<BigInteger> residues = new ArrayList<BigInteger>();
-		BigInteger coprime = getOneComprimeOfValueThatIsNotInList(value, testedCoprimes);
+		BigInteger coprime = getOneCoprimeOfValueThatIsNotInList(value, coprimesAlreadyTested);
 		while (coprime != null) {
 			for (int k = 1; k < value.intValue(); k++) {
 				aux = (coprime.pow(k)).mod(value);
@@ -31,26 +31,26 @@ public class PrimitiveRootCalculator {
 			if (residues.size() == value.intValue() - 1) {
 				return coprime;
 			}
-			testedCoprimes.add(coprime);
+			coprimesAlreadyTested.add(coprime);
 			residues.clear();
-			coprime = getOneComprimeOfValueThatIsNotInList(value, testedCoprimes);
+			coprime = getOneCoprimeOfValueThatIsNotInList(value, coprimesAlreadyTested);
 		}
 		throw new PrimitiveRootNotFoundException();
 	}
 
-	private static BigInteger getOneComprimeOfValueThatIsNotInList(BigInteger value, List<BigInteger> list) {
-		BigInteger probablePrime = ZERO;
-		while (probablePrime != null) {
-			probablePrime = new BigInteger(String.valueOf(random.nextInt(value.intValue())));
-			if (list.contains(probablePrime)) {
-				list.add(probablePrime);
+	private static BigInteger getOneCoprimeOfValueThatIsNotInList(BigInteger value, List<BigInteger> list) {
+		BigInteger probableCoprime = ZERO;
+		while (probableCoprime != null) {
+			probableCoprime = new BigInteger(String.valueOf(random.nextInt(value.intValue())));
+			if (list.contains(probableCoprime)) {
+				list.add(probableCoprime);
 				if (list.size() >= value.intValue()) {
 					break;
 				}
 				continue;
 			}
-			if (probablePrime.gcd(value).compareTo(ONE) == 0) {
-				return probablePrime;
+			if (probableCoprime.gcd(value).compareTo(ONE) == 0) {
+				return probableCoprime;
 			}
 		}
 		return null;
